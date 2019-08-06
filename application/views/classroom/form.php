@@ -28,41 +28,51 @@
                     <form class="form-horizontal" method="post">
                         <fieldset>
                             <div class="span9">
-                                <div class="control-group">
-                                    <label class="control-label">Nama Login Pengguna (Username)</label>
+                            <div class="control-group">
+                                    <label class="control-label">Nama Kelas</label>
                                     <div class="controls">
-                                        <input class="input-xlarge focused" id="input-username" type="text" name="username" value="<?= ($user ? $user->username : '') ?>">
+                                        <input class="input-xlarge focused" id="input-classroom" type="text" name="name" value="<?= ($room ? $room->name : '') ?>">
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label">Nama Lengkap</label>
+                                    <label class="control-label">Kelas</label>
                                     <div class="controls">
-                                        <input class="input-xlarge focused" id="input-fullname" type="text" name="fullname" value="<?= ($user ? $user->fullname : '') ?>">
+                                        <input class="input-xlarge focused" id="input-classroom" type="number" name="classroom" value="<?= ($room ? $room->class : '') ?>">
                                     </div>
                                 </div>
                                 <div class="control-group">
-                                    <label class="control-label">Sebagai</label>
+                                    <label class="control-label">Tahun Ajaran</label>
+                                    <div class="controls">
+                                        <input class="input-xlarge focused" id="input-year" type="number" name="year" value="<?= ($room ? $room->year : '') ?>">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label">Semeter</label>
+                                    <div class="controls">
+                                        <input class="input-xlarge focused" id="input-semester" type="number" name="semester" value="<?= ($room ? $room->semester : '') ?>">
+                                    </div>
+                                </div>
+                                <div class="control-group">
+                                    <label class="control-label">Wali Kelas</label>
                                     <div class="controls">
                                         <select id="input-role" name="role">
-                                            <option value="">Pilih Peran</option>
-                                            <option value="A" <?= ($user && $user->role === 'A' ? 'selected' : '') ?>>Admin</option>
-                                            <option value="K" <?= ($user && $user->role === 'K' ? 'selected' : '') ?>>Kepala Sekolah</option>
-                                            <option value="G" <?= ($user && $user->role === 'G' ? 'selected' : '') ?>>Guru</option>
+                                            <option value="">Pilih Wali Kelas</option>
+                                            <?php foreach($users as $user): ?>
+                                            <?= '
+                                            
+                                                <option class="odd gradeX" value='.$user->id.' '.($user->id === $room->teacher_id ? "selected=\"selected\"" : '').' >
+                                                    '.$user->username.'
+                                                </option>
+                                            '?>
+                                            <?php endforeach; ?>
                                         </select>
                                     </div>
                                 </div>
-                                <?php if(!$user): ?>
-                                <div class="control-group">
-                                    <div class="controls">
-                                        <span style="color: red;">* Password otomatis di buat oleh sistem : `user123`</span>
-                                    </div>
-                                </div>
-                                <?php endif; ?>
                             </div>
                         </fieldset>
                         <div class="form-actions">
                             <button type="submit" class="btn btn-success">Simpan</button>
-                            <a type="reset" class="btn" href="<?= site_url('/user') ?>">Batalkan</a>
+                            <a type="reset" class="btn" href="<?= site_url('/classroom') ?>">Batalkan</a>
                         </div>
                     </form>
                 </div>

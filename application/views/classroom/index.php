@@ -40,7 +40,7 @@
                                         <td>'.$room->semester.'</td>
                                         <td>'.$room->year.'</td>
                                         <td>'.$room->fullname.'</td>
-                                        <td class="center"><a href="'. site_url('/user/update/' . $room->id).'"><i class="icon-pencil"></i></a>&nbsp;<a class="btn-delete" href="'. site_url('/user?del=' . $room->id).'"><i class="icon-trash"></i></a></td>
+                                        <td class="center"><a href="'. site_url('/classroom/update/' . $room->id).'"><i class="icon-pencil"></i></a>&nbsp;<a class="btn-delete" href="'. site_url('/classroom?del=' . $room->id).'"><i class="icon-trash"></i></a></td>
                                     </tr>
                                 '?>
                             <?php endforeach; ?>

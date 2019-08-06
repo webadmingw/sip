@@ -14,7 +14,14 @@ class Classroom extends D_Controller
     public function index()
     {
         $status = array();
-        
+        if($this->input->get('del')){
+            
+            if($this->rooms->deleteClass($this->input->get('del'))){
+                $status = ['status' => true, 'msg' => 'Pengguna sudah dihapus dari sistem.'];
+            }else{
+                $status = ['status' => false, 'msg' => 'Pengguna gagal dihapus.'];
+            }
+        }
         $rooms = $this->rooms->getAll();
         
         $this->load->view('layouts/header');
@@ -28,26 +35,25 @@ class Classroom extends D_Controller
     public function add()
     {
         $status = array();
-        
-        if ($this->input->post()) {
-            $user = $this->users->getUser($this->input->post('username'));
-            
-            if($this->input->post('username') && $this->input->post('fullname') && $this->input->post('role')){
-                if($user){
-                    $status = ['status' => false, 'msg' => 'Nama Pengguna sudah tersedia, gunakan Nama Pengguna yang lain. '];
-                }else{
-                    $this->users->add($this->input->post('username'), $this->input->post('fullname'), $this->input->post('role'));
-                    $status = ['status' => true, 'msg' => 'Pengguna berhasil ditambahkan.'];
-                }
-            }else{
+        $users = $this->users->getUsers();
+        function filterUser($item){
+            return ($item->role == 'G');
+        }
+        $formdata = $this->input->post();
+        if ($formdata) {
+            if($this->input->post('name') && $this->input->post('classroom') && $this->input->post('year') && $this->input->post('semester')&& $this->input->post('role')) {
+                $this->rooms->add($this->input->post('name'), $this->input->post('classroom'), $this->input->post('year'), $this->input->post('semester'), $this->input->post('role'));
+                $status = ['status' => true, 'msg' => 'Kelas berhasil ditambah'];
+            } else {
                 $status = ['status' => false, 'msg' => 'Formulir harus diisi dengan lengkap.'];
             }
         }
         
         $this->load->view('layouts/header');
-        $this->load->view('users/form', array(
+        $this->load->view('classroom/form', array(
             'status' => $status,
-            'user' => false,
+            'room' => false,
+            'users' => array_filter($users, "filterUser")
         ));
         $this->load->view('layouts/footer');
     }
@@ -55,81 +61,30 @@ class Classroom extends D_Controller
     public function update($id)
     {
         $status = array();
-        $user = $this->users->getUserById($id);
+        $room = $this->rooms->getClassByID($id);
+        
+        $users = $this->users->getUsers();
+        function filterUser($item){
+            return ($item->role == 'G');
+        }
         
         if ($this->input->post()) {
-            if($this->input->post('username') && $this->input->post('fullname') && $this->input->post('role')){
-                $this->users->updateUser($this->input->post('username'), $this->input->post('fullname'), $this->input->post('role'), $id);
-                $status = ['status' => true, 'msg' => 'Pengguna berhasil dirubah.'];
-                $user = $this->users->getUserById($id);
-            }else{
+            if($this->input->post('name') && $this->input->post('classroom') && $this->input->post('year') && $this->input->post('semester')&& $this->input->post('role')) {
+                $this->rooms->updateClass($id, $this->input->post('name'), $this->input->post('year'), $this->input->post('semester'), $this->input->post('role'), $this->input->post('classroom'));
+                $room = $this->rooms->getClassByID($id);
+                $status = ['status' => true, 'msg' => 'Kelas berhasil dirubah'];
+            } else {
                 $status = ['status' => false, 'msg' => 'Formulir harus diisi dengan lengkap.'];
             }
         }
         
         $this->load->view('layouts/header');
-        $this->load->view('users/form', array(
+        $this->load->view('classroom/form', array(
             'status' => $status,
-            'user' => $user,
+            'users' => array_filter($users, "filterUser"),
+            'room' => $room
         ));
         $this->load->view('layouts/footer');
-    }
-
-    public function profile()
-    {
-        $submitResult = null;
-        $errorUpload = null;
-        if ($this->input->post()) {
-            if ($this->input->post('username') === '' || $this->input->post('fullname') === '') {
-                $submitResult = false;
-            } else {
-                $_file = $_FILES['avatar'];
-                $ext = pathinfo($_file['name'], PATHINFO_EXTENSION);
-                $avatar = time() . '.' . $ext;
-                
-                if($_file['error'] === UPLOAD_ERR_OK){
-                    move_uploaded_file($_file['tmp_name'], avatar_path() . $avatar);
-                    $submitResult = $this->users->updateProfile($this->input->post('username'), $this->input->post('fullname'), $avatar);
-                }else {
-                    $errorUpload = error_upload($_FILES['avatar']['error']);
-                    $submitResult = false;
-                }
-            }
-        }
-
-        $this->load->view('layouts/header');
-        $this->load->view('users/profile', array(
-            'roles' => $this->users->roles,
-            'submitResult' => $submitResult,
-            'errorUpload' => $errorUpload
-        ));
-        $this->load->view('layouts/footer');
-    }
-    
-    public function change(){
-        $status = array();
-        
-        if ($this->input->post()) {
-            if ((($status = $this->changePasswordValidate($this->input->post('authkey'), $this->input->post('confirm'))) === true) && $this->users->changePassword($this->session->userdata('id'), $this->input->post('authkey'))) {
-                $status = ['status' => true, 'msg' => 'Password berhasil dirubah!'];
-            }
-        }
-        
-        $this->load->view('layouts/header');
-        $this->load->view('users/change-password', array(
-            'status' => $status,
-        ));
-        $this->load->view('layouts/footer');
-    }
-    
-    private function changePasswordValidate($authkey, $confirm){
-        if(($authkey === '' || $confirm === '')){
-            return ['status' => false, 'msg' => 'Formulir harus diisi dengan lengkap.'];
-        }elseif($authkey !== $confirm){
-            return ['status' => false, 'msg' => 'Password Baru dan Konfirmasi tidak sesuai.'];
-        }
-        
-        return true;
     }
     
 }
