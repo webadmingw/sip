@@ -27,5 +27,17 @@ class Rooms extends CI_Model {
         ';
         return $this->db->query($sql)->result();
     }
+    public function add($name, $classroom, $year, $semester, $role){
+        return $this->db->query('insert into classroom (`name`, `class`, `year`, `semester`, `teacher_id`, `created_at`) values ("'.$name.'", "'.$classroom.'", "'.$year.'", "'.$semester.'", '.$role.', now())');
+    }
+    public function getClassByID($id){
+        return $this->db->query('SELECT * from classroom WHERE id = ' . $id)->row();
+    }
+    public function updateClass($id, $name, $year, $semester, $teacher_id, $classroom){
+        return $this->db->query('UPDATE classroom set name='. '"' .$name. '"' .', `year`='.$year.', semester='.$semester.', teacher_id='.$teacher_id.', class='.$classroom.' WHERE id = '.$id);
+    }
+    public function deleteClass($id){
+        return $this->db->query('update classroom set is_deleted=1 where id=' . $id);
+    }
     
 }

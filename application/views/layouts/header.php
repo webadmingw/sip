@@ -50,6 +50,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                     <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">Data Akademis <i class="caret"></i></a>
                                     <ul class="dropdown-menu">
                                         <li><a tabindex="-1" href="<?= site_url('/classroom') ?>">Daftar Kelas</a></li>
+                                        <li><a tabindex="-1" href="<?= site_url('/classroom/add') ?>">Tambah Kelas</a></li>
                                     </ul>
                                 </li>
                                 <li class="dropdown">
