@@ -40,7 +40,7 @@
                                         <td>'.$room->semester.'</td>
                                         <td>'.$room->year.'</td>
                                         <td>'.$room->fullname.'</td>
-                                        <td class="center"><a href="'. site_url('/classroom/update/' . $room->id).'"><i class="icon-pencil"></i></a>&nbsp;<a class="btn-delete" href="'. site_url('/classroom?del=' . $room->id).'"><i class="icon-trash"></i></a>&nbsp;<a class="add-courses" href="'. site_url('/courses/add/' . $room->id).'"><small>Tambah Pelajaran</small></a></td>
+                                        <td class="center"><a href="'. site_url('/classroom/update/' . $room->id).'"><i class="icon-pencil"></i></a>&nbsp;<a class="btn-delete" href="'. site_url('/classroom?del=' . $room->id).'"><i class="icon-trash"></i></a>&nbsp;<a class="add-courses" style="margin-right:5px;" href="'. site_url('/courses/add/' . $room->id).'"><small>Tambah Pelajaran</small></a>'. '<a class="add-courses" href="'. site_url('/students/add/' . $room->id).'"><small>Tambah Siswa</small></a>' .'</td>
                                     </tr>
                                 '?>
                             <?php endforeach; ?>
