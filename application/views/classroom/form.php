@@ -9,7 +9,7 @@
                         <a href="<?= site_url() ?>">SIP</a> <span class="divider">/</span>
                     </li>
                     <li>
-                        <a href="<?= site_url('/user') ?>">Daftar Pengguna</a> <span class="divider">/</span>
+                        <a href="<?= site_url('/classroom') ?>">Daftar Kelas</a> <span class="divider">/</span>
                     </li>
                     <li class="active">Tambah</li>
                 </ul>
@@ -20,7 +20,7 @@
     <div class="row-fluid">
         <div class="block">
             <div class="navbar navbar-inner block-header">
-                <div class="muted pull-left">Tambah Pengguna</div>
+                <div class="muted pull-left">Tambah Kelas</div>
             </div>
             <div class="block-content collapse in">
                 <div class="span12">
