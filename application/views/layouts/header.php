@@ -56,8 +56,9 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                 <li class="dropdown">
                                     <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">Pengguna <i class="caret"></i></a>
                                     <ul class="dropdown-menu">
-                                        <li><a tabindex="-1" href="<?= site_url('/user') ?>">List Pengguna</a></li>
-                                        <li><a tabindex="-1" href="<?= site_url('/user/add') ?>">Tambah</a></li>
+                                        <li><a tabindex="-1" href="<?= site_url('/user') ?>">Daftar Pengguna</a></li>
+                                        <li><a tabindex="-1" href="<?= site_url('/user/add') ?>">Tambah Pengguna</a></li>
+                                        <li><a tabindex="-1" href="<?= site_url('/students') ?>">Daftar Siswa</a></li>
                                     </ul>
                                 </li>
                             </ul>
