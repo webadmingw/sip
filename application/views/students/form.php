@@ -9,29 +9,52 @@
                 <td>
                     <fieldset>
                         <div class="span9">
-
                             <div class="control-group">
                                     <label class="control-label">NISN</label>
                                     <div class="controls">
-                                        <input class="input-xlarge focused" id="input-subject" type="text" name="id" value="<?= ($itemInput ? $itemInput->id : '') ?>">
+                                        <input 
+                                            class="input-xlarge focused" 
+                                            id="input-subject" 
+                                            type="text" 
+                                            name="id" 
+                                            value="<?= ($itemInput ? $itemInput->id : '') ?>"
+                                        >
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <label class="control-label">Nama Siswa</label>
                                     <div class="controls">
-                                        <input class="input-xlarge focused" id="input-desc" type="text" name="fullname" value="<?= ($itemInput ? $itemInput->fullname : '') ?>">
+                                        <input 
+                                            class="input-xlarge focused" 
+                                            id="input-desc" 
+                                            type="text" 
+                                            name="fullname" 
+                                            value="<?= ($itemInput ? $itemInput->fullname : '') ?>"
+                                        >
                                     </div>
                                 </div>
                                 <div class="control-group">
                                     <label class="control-label">Nama Orangtua/wali</label>
                                     <div class="controls">
-                                        <input class="input-xlarge focused" id="input-desc" type="text" name="parent_fullname" value="<?= ($itemInput ? $itemInput->parent_fullname : '') ?>">
+                                        <input 
+                                            class="input-xlarge focused" 
+                                            id="input-desc" 
+                                            type="text" 
+                                            name="parent_fullname" 
+                                            value="<?= ($itemInput ? $itemInput->parent_fullname : '') ?>"
+                                        >
                                     </div>
                                 </div>
                                 <div class="control-group">
                                 <label class="control-label">Nomor Ponsel</label>
                                     <div class="controls">
-                                        <input class="input-xlarge focused" id="input-desc" type="number" name="phone" value="<?= ($itemInput ? $itemInput->phone : '') ?>">
+                                        <input 
+                                            class="input-xlarge focused" 
+                                            id="input-desc" 
+                                            type="number" 
+                                            name="phone" 
+                                            value="<?= ($itemInput ? $itemInput->phone : '') ?>"
+                                        >
                                     </div>
                                 </div>
                             </div>
@@ -45,19 +68,37 @@
                             <div class="control-group">
                                 <label class="control-label">Tempat Lahir</label>
                                 <div class="controls">
-                                    <input class="input-xlarge focused" id="input-min" type="text" name="birth_place" value="<?= ($itemInput ? $itemInput->birth_place : '') ?>">
+                                    <input 
+                                        class="input-xlarge focused" 
+                                        id="input-min" 
+                                        type="text" 
+                                        name="birth_place" 
+                                        value="<?= ($itemInput ? $itemInput->birth_place : '') ?>"
+                                    >
                                 </div>
                             </div>
                             <div class="control-group">
                                 <label class="control-label">Tanggal Lahir</label>
                                 <div class="controls">
-                                    <input class="input-xlarge focused" id="input-desc" type="date" name="birth_day" value="<?= ($itemInput ? $itemInput->birth_day : '') ?>">
+                                    <input 
+                                        class="input-xlarge focused" 
+                                        id="input-desc" 
+                                        type="date" 
+                                        name="birth_day" 
+                                        value="<?= ($itemInput ? $itemInput->birth_day : '') ?>"
+                                    >
                                 </div>
                             </div>
                             <div class="control-group">
                                     <label class="control-label">Semester</label>
                                     <div class="controls">
-                                        <input class="input-xlarge focused" id="input-max" type="number" name="semester" value="<?= ($itemInput ? $itemInput->semester : '') ?>">
+                                        <input 
+                                            class="input-xlarge focused" 
+                                            id="input-max" 
+                                            type="number" 
+                                            name="semester" 
+                                            value="<?= ($itemInput ? $itemInput->semester : '') ?>"
+                                        >
                                     </div>
                             </div>
                             <div class="control-group">
@@ -67,7 +108,13 @@
                                             <option value="">Pilih Kelas</option>
                                             <?php foreach($classroom as $item): ?>
                                                 <?=
-                                                '<option value='. $item->id. ($item->id === $itemInput->classroom_id ? ' selected':'') .'>' . $item->name .'</option>'
+                                                '<option 
+                                                    value='. 
+                                                    $item->id. 
+                                                    ($item->id === $itemInput->classroom_id ? ' selected':'') .
+                                                '>' . 
+                                                    $item->name .
+                                                '</option>'
                                                 ?>
                                             <?php endforeach; ?>
                                     </select>

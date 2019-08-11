@@ -1,43 +1,34 @@
 <div class="row-fluid mt-3">
         <div class="block">
             <div class="navbar navbar-inner block-header">
-                <div class="muted pull-left">Daftar Siswa</div>
-                
+                <div class="muted pull-left">Daftar KD</div>
             </div>
             <div class="block-content collapse in">
             <div class="span12">
                     <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered" id="list">
                         <thead>
                             <tr>
-                                <th>NISN</th>
-                                <th>Nama Siswa</th>
-                                <th>Kelas</th>
-                                <th>Semester</th>
-                                <th>Orangtua/Wali</th>
-                                <th>Ponsel</th>
-                                <th>TTL</th>
+                                <th>Nama</th>
+                                <th>Deskripsi</th>
+                                <th>Pelajaran</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                        <?php foreach($students as $item): ?>
+                        <?php foreach($dataCompetence as $item): ?>
                                 <?= '
                                     <tr class="odd gradeX">
-                                        <td>'.$item->id.'</td>
-                                        <td>'.$item->fullname.'</td>
-                                        <td>'.$item->classroom_name.'</td>
-                                        <td>'.$item->semester.'</td>
-                                        <td>'.$item->parent_fullname.'</td>
-                                        <td>'.$item->phone.'</td>
-                                        <td>'.$item->birth_day.'</td>
+                                        <td>'.$item->code.'</td>
+                                        <td>'.$item->desc.'</td>
+                                        <td>'.$item->fullname. ' (' .$item->subject_desc. ')' .'</td>
                                         <td class="center">
-                                            <a href="'. site_url('/students/update/' . $item->id).'">
+                                            <a href="'. site_url('/competence/update/' . $item->id).'">
                                                 <i class="icon-pencil"></i>
                                             </a>&nbsp;
-                                            <a class="btn-delete" href="'. site_url('/students?del=' . $item->id).'">
+                                            <a class="btn-delete" href="'. site_url('/competence/add/'. $sub_id .'?del=' . $item->id).'">
                                                 <i class="icon-trash"></i>
-                                            </a>
-                                        </td>
+                                            </a>&nbsp;'.
+                                        '</td>
                                     </tr>
                                 '?>
                             <?php endforeach; ?>
