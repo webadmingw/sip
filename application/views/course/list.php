@@ -23,7 +23,17 @@
                                         <td>'.$item->desc.'</td>
                                         <td>'.$item->min_grade.'</td>
                                         <td>'.$item->max_grade.'</td>
-                                        <td class="center"><a href="'. site_url('/courses/update/' . $item->id).'"><i class="icon-pencil"></i></a>&nbsp;<a class="btn-delete" href="'. site_url('/courses/add/'. $room->id .'?del=' . $item->id).'"><i class="icon-trash"></i></a></td>
+                                        <td class="center">
+                                            <a href="'. site_url('/courses/update/' . $item->id).'">
+                                                <i class="icon-pencil"></i>
+                                            </a>&nbsp;
+                                            <a class="btn-delete" href="'. site_url('/courses/add/'. $room->id .'?del=' . $item->id).'">
+                                                <i class="icon-trash"></i>
+                                            </a>&nbsp;'. 
+                                            '<a '. 'href="'. site_url('/competence/add/'. $item->id ) .'"' .'>
+                                                <small>Tambah KD</small>
+                                            </a>' .
+                                        '</td>
                                     </tr>
                                 '?>
                             <?php endforeach; ?>
