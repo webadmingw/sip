@@ -1,10 +1,10 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
-if (!function_exists('print_r')) {
-    function print_r($array, $continue = FALSE)
+if (!function_exists('printr')) {
+    function printr($array, $continue = FALSE)
     {
         echo '<pre style="color: #000; border: 4px dashed #ddd; padding: 20px; width: 95%; margin: 20px auto; background-color: #f0f0f0;">' . print_r($array, TRUE) . '</pre>';
-        if ($array === FALSE) {
+        if ($continue === FALSE) {
             die;
             exit;
         }
@@ -46,8 +46,31 @@ if (!function_exists('error_upload')) {
 if (!function_exists('flash_msg')) {
     function flash_msg($args)
     {
-        if(isset($args['status']) && $args['status'] !== null){
-            echo '<div class="alert '.(($args['status']) ? 'alert-success' : 'alert-error') . '"><button class="close" data-dismiss="alert">×</button><strong>'.(($args['status']) ? 'Sukses!' : 'Error!').'</strong> '.(isset($args['msg']) ? $args['msg'] : '').'</div>';
+        if (isset($args['status']) && $args['status'] !== null) {
+            echo '<div class="alert ' . (($args['status']) ? 'alert-success' : 'alert-error') . '"><button class="close" data-dismiss="alert">×</button><strong>' . (($args['status']) ? 'Sukses!' : 'Error!') . '</strong> <br>' . (isset($args['msg']) ? $args['msg'] : '') . '</div>';
         }
+    }
+}
+
+if (!function_exists('get_grade')) {
+    function get_grade($arg)
+    {
+        if ($arg === '') {
+            $result = '';
+        } elseif ($arg >= 85) {
+            $result = 'A';
+        } elseif ($arg >= 70) {
+            $result = 'B';
+        } elseif ($arg >= 55) {
+            $result = 'C';
+        } elseif ($arg >= 30) {
+            $result = 'D';
+        } elseif ($arg >= 0) {
+            $result = 'E';
+        } else {
+            $result = '';
+        }
+
+        return $result;
     }
 }

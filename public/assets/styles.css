@@ -216,3 +216,8 @@ body {
 .logo {
     width: 30px;
 }
+
+.table thead th {
+  text-align: center;
+  vertical-align: middle;
+}
