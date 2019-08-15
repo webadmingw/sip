@@ -111,9 +111,16 @@ class Reports extends CI_Model
         return true;
     }
 
-    public function deleteResultByClass($classid)
+    public function deleteResultByClass($classid, $subject_id)
     {
-        $sql = "delete from report where class = " . $classid;
+        $sql = "delete from report where comp_id in (
+            select
+                comp.id
+            from classroom c 
+            inner join subject s on s.classroom_id=c.id
+            inner join comp on comp.subject_id = s.id
+            where c.id=".$classid." and s.id=".$subject_id."
+        );";
         return $this->db->query($sql);
     }
 }

@@ -22,7 +22,7 @@ class Report extends D_Controller
             $classId = ($this->input->get('class') ? $this->input->get('class') : $curClass[0]->classid);
 
             if ($this->input->post('result')) {
-                $this->reports->deleteResultByClass($classId);
+                $this->reports->deleteResultByClass($this->input->post('class'), $this->input->post('subject_id'));
                 $this->reports->insertResult($this->input->post('class'), $this->input->post('year'), $this->input->post('semester'), $this->input->post('result'));
                 $status = array('status' => true, 'msg' => 'Data berhasil ditambahkan.');
             }

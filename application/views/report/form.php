@@ -70,6 +70,7 @@
                         <input type="hidden" name="semester" value="<?= $curSemester ?>">
                         <input type="hidden" name="year" value="<?= $curYear ?>">
                         <input type="hidden" name="class" value="<?= $curClassId ?>">
+                        <input type="hidden" name="subject_id" value="<?= $curSubjectId ?>">
                         <table cellpadding="0" cellspacing="0" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
