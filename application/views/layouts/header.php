@@ -21,6 +21,8 @@ defined('BASEPATH') or exit('No direct script access allowed');
     <script src="<?= base_url('public/vendors/easypiechart/jquery.easy-pie-chart.js') ?>"></script>
     <script src="<?= base_url('public/vendors/datatables/js/jquery.dataTables.min.js') ?>"></script>
     <script src="<?= base_url('public/assets/DT_bootstrap.js') ?>"></script>
+    <script src="<?= base_url('public/vendors/raphael-min.js') ?>"></script>
+    <script src="<?= base_url('public/vendors/morris/morris.min.js') ?>"></script>
 </head>
 
 <body>
