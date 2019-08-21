@@ -1,4 +1,4 @@
-<div class="<?= ($this->session->userdata('is_logged') ? 'span12' : 'span9') ?>" id="content">
+<div class="span9" id="content">
     <div class="block">
         <div class="navbar navbar-inner block-header">
             <div class="muted pull-left">Statistics</div>
@@ -12,33 +12,36 @@
             <div class="span12">
                 <div id="hero-bar"></div>
             </div>
-            <div class="block-content collapse in">
-                <div class="span3">
-                    <div class="chart" data-percent="73">73%</div>
-                    <div class="chart-bottom-heading"><span class="label label-info">Visitors</span>
-
-                    </div>
-                </div>
-                <div class="span3">
-                    <div class="chart" data-percent="53">53%</div>
-                    <div class="chart-bottom-heading"><span class="label label-info">Page Views</span>
-
-                    </div>
-                </div>
-                <div class="span3">
-                    <div class="chart" data-percent="83">83%</div>
-                    <div class="chart-bottom-heading"><span class="label label-info">Users</span>
-
-                    </div>
-                </div>
-                <div class="span3">
-                    <div class="chart" data-percent="13">13%</div>
-                    <div class="chart-bottom-heading"><span class="label label-info">Orders</span>
-
-                    </div>
-                </div>
-            </div>
         </div>
-        <!-- /block -->
     </div>
 </div>
+
+</div>
+
+<script type="text/javascript">
+    $('document').ready(function() {
+        $('#submit-nisn').click(function(e) {
+            const dataNISN = document.getElementById('input-nisn').value;
+            $.get(`<?= site_url('/welcome/report?nisn=') ?>${dataNISN}`, (res) => {
+                const data = JSON.parse(res).map(item => {
+                    return {
+                        y: item.courses,
+                        a: item.knowledge,
+                        b: item.skill
+                    }
+                });
+                Morris.Bar({
+                    element: 'hero-bar',
+                    data: data,
+                    xkey: 'y',
+                    ykeys: ['a', 'b'],
+                    labels: ['Nilai Siswa'],
+                    barRatio: 0.4,
+                    xLabelMargin: 10,
+                    hideHover: 'auto',
+                    barColors: ["#3d88ba"]
+                });
+            })
+        });
+    });
+</script>
