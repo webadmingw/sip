@@ -8,6 +8,8 @@
 class Reports extends CI_Model
 {
 
+    #SKILL = 0 { PENGETAHUAN } ELSE { KETERAMPILAN } 
+
     public function getCurrentClass($teacher_id, $year, $semester)
     {
         $sql = "
@@ -70,7 +72,7 @@ class Reports extends CI_Model
         return $this->db->query("select nisn, fullname from student where cur_class = " . $classid . " and is_deleted=0 order by fullname;")->result();
     }
 
-    public function getResults($classid)
+    public function getResults($classid, $skill = 0)
     {
         $sql = "
         select 
@@ -79,7 +81,7 @@ class Reports extends CI_Model
         inner join classroom c on c.id = s.cur_class
         inner join subject pel on pel.classroom_id=c.id
         inner join comp on comp.subject_id = pel.id
-        left join report r on r.comp_id = comp.id and r.nisn = s.nisn
+        left join report r on r.comp_id = comp.id and r.nisn = s.nisn and skill = " . $skill . "
         where c.id = " . $classid . ";
         ";
         $result = $this->db->query($sql)->result();
@@ -92,14 +94,14 @@ class Reports extends CI_Model
         return $return;
     }
 
-    public function insertResult($classid, $year, $semester, $arrResult)
+    public function insertResult($classid, $year, $semester, $arrResult, $skill = 0)
     {
-        $insert = 'insert into report (class, year, semester, nisn, comp_id, knowledge) values';
+        $insert = 'insert into report (class, year, semester, nisn, comp_id, knowledge, skill) values';
         $i = 0;
         foreach ($arrResult as $nisn => $item) {
             foreach ($item as $comp_id => $r) {
                 if ($r !== null && $r !== '') {
-                    $insert .= ' (' . $classid . ', "' . $year . '", ' . $semester . ', "' . $nisn . '", ' . $comp_id . ', ' . ($r ? $r : "null") . '),';
+                    $insert .= ' (' . $classid . ', "' . $year . '", ' . $semester . ', "' . $nisn . '", ' . $comp_id . ', ' . ($r ? $r : "null") . ', ' . $skill . '),';
                     $i++;
                 }
             }
@@ -111,7 +113,9 @@ class Reports extends CI_Model
         return true;
     }
 
-    public function deleteResultByClass($classid, $subject_id)
+
+
+    public function deleteResultByClass($classid, $subject_id, $skill = 0)
     {
         $sql = "delete from report where comp_id in (
             select
@@ -119,8 +123,8 @@ class Reports extends CI_Model
             from classroom c 
             inner join subject s on s.classroom_id=c.id
             inner join comp on comp.subject_id = s.id
-            where c.id=".$classid." and s.id=".$subject_id."
-        );";
+            where c.id=" . $classid . " and s.id=" . $subject_id . "
+        ) and report.skill = " . $skill . ";";
         return $this->db->query($sql);
     }
 }

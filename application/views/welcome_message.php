@@ -1,9 +1,16 @@
-<div class="span9" id="content">
-    <div class="row-fluid">
-        <!-- block -->
-        <div class="block">
-            <div class="navbar navbar-inner block-header">
-                <div class="muted pull-left">Statistics</div>
+<div class="<?= ($this->session->userdata('is_logged') ? 'span12' : 'span9') ?>" id="content">
+    <div class="block">
+        <div class="navbar navbar-inner block-header">
+            <div class="muted pull-left">Statistics</div>
+        </div>
+        <div class="block-content collapse in">
+            <div class="span12">
+                <input placeholder="NISN" class="input-xlarge focused" style="margin-top:10px;" id="input-nisn" type="text">
+                <button class="btn btn-success" id="submit-nisn">Cari</button>
+            </div>
+            <div class="span12">&nbsp;</div>
+            <div class="span12">
+                <div id="hero-bar"></div>
             </div>
             <div class="block-content collapse in">
                 <div class="span3">

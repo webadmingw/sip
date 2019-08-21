@@ -31,7 +31,7 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </a>
-                <a class="brand" href="#"><img class="logo" src="<?= base_url('public/images/logo-sd.png') ?>" alt="Logo SD"> Sistem Informasi Penilaian</a>
+                <a class="brand" href="<?= site_url('/') ?>"><img class="logo" src="<?= base_url('public/images/logo-sd.png') ?>" alt="Logo SD"> Sistem Informasi Penilaian</a>
                 <?php if ($this->session->userdata('is_logged')) : ?>
                 <div class="nav-collapse collapse">
                     <ul class="nav pull-right">
@@ -47,28 +47,55 @@ defined('BASEPATH') or exit('No direct script access allowed');
                     </ul>
                     <ul class="nav">
                         <li><a href="<?= site_url('/') ?>">Dashboard</a></li>
+
+                        <?php if ($this->session->userdata('role') !== 'K') : ?>
                         <li class="dropdown">
                             <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">Data Akademis <i class="caret"></i></a>
                             <ul class="dropdown-menu">
-                                <li><a tabindex="-1" href="<?= site_url('/classroom') ?>">Daftar Kelas</a></li>
+                                <li><a tabindex="-1" href="<?= site_url('/classroom') ?>">Data Kelas</a></li>
+                                <?php if ($this->session->userdata('role') === 'A') : ?>
                                 <li><a tabindex="-1" href="<?= site_url('/classroom/add') ?>">Tambah Kelas</a></li>
+                                <li><a tabindex="-1" href="<?= site_url('/students') ?>">Daftar Siswa</a></li>
+                                <?php endif; ?>
                             </ul>
                         </li>
-                        <li><a href="<?= site_url('/report') ?>">Penilaian</a></li>
+                        <?php endif; ?>
+
+                        <?php if ($this->session->userdata('role') === 'G') : ?>
+                        <li class="dropdown">
+                            <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">Penilaian <i class="caret"></i></a>
+                            <ul class="dropdown-menu">
+                                <li><a tabindex="-1" href="<?= site_url('/assesment/knowledge') ?>">Pengetahuan</a></li>
+                                <li><a tabindex="-1" href="<?= site_url('/assesment/skill') ?>">Keterampilan</a></li>
+                                <li><a tabindex="-1" href="<?= site_url('/assesment') ?>">Sikap</a></li>
+                            </ul>
+                        </li>
+                        <?php endif; ?>
+
+                        <?php if ($this->session->userdata('role') === 'K') : ?>
+                        <li><a href="<?= site_url('/') ?>">Pusat SMS</a></li>
+                        <?php endif; ?>
+
+                        <?php if ($this->session->userdata('role') !== 'G') : ?>
                         <li class="dropdown">
                             <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">Laporan <i class="caret"></i></a>
                             <ul class="dropdown-menu">
-                                <li><a tabindex="-1" href="<?= site_url('/') ?>">Belum Tersedia</a></li>
+                                <li><a tabindex="-1" href="<?= site_url('/report/knowledge') ?>">Pengetahuan</a></li>
+                                <li><a tabindex="-1" href="<?= site_url('/report/skill') ?>">Keterampilan</a></li>
+                                <li><a tabindex="-1" href="<?= site_url('/report') ?>">Sikap</a></li>
                             </ul>
                         </li>
+                        <?php endif; ?>
+
+                        <?php if ($this->session->userdata('role') === 'A') : ?>
                         <li class="dropdown">
                             <a href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">Pengguna <i class="caret"></i></a>
                             <ul class="dropdown-menu">
                                 <li><a tabindex="-1" href="<?= site_url('/user') ?>">Daftar Pengguna</a></li>
                                 <li><a tabindex="-1" href="<?= site_url('/user/add') ?>">Tambah Pengguna</a></li>
-                                <li><a tabindex="-1" href="<?= site_url('/students') ?>">Daftar Siswa</a></li>
                             </ul>
                         </li>
+                        <?php endif; ?>
                     </ul>
                 </div>
                 <?php endif; ?>

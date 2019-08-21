@@ -9,19 +9,4 @@
             </div>
         </div>
     </div>
-    <div class="row-fluid">
-        <!-- block -->
-        <div class="block">
-            <div class="navbar navbar-inner block-header">
-                <div class="muted pull-left">Beranda</div>
-            </div>
-            <div class="block-content collapse in">
-                <div class="span3">
-                    <h1 class="header">Selamat Datang</h1>
-                    <h4>Sistem Informasi Penilaian Akademik</h4>
-                </div>
-            </div>
-        </div>
-        <!-- /block -->
-    </div>
 </div>

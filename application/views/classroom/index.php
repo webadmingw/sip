@@ -28,34 +28,41 @@
                                 <th>Kelas (Sub)</th>
                                 <th>Semester</th>
                                 <th>Tahun Ajaran</th>
+                                <?php if ($this->session->userdata('role') !== 'G') : ?>
                                 <th>Wali Kelas</th>
+                                <?php endif; ?>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <?php foreach($rooms as $room): ?>
-                                <?= '
+                            <?php foreach ($rooms as $room) : ?>
+                            <?php
+                                $tdMaster = '';
+                                $tdAction = '
+                                    <a class="add-courses" href="' . site_url('/courses/add/' . $room->id) . '"><small>Tambah Pelajaran</small></a>&nbsp;|&nbsp;
+                                    <a href="' . site_url('/classroom/students/' . $room->id) . '"><small>Data Siswa</small></a>
+                                ';
+
+                                if ($this->session->userdata('role') !== 'G') {
+                                    $tdMaster .= '<td>' . $room->fullname . '</td>';
+                                    $tdAction = '
+                                        <a href="' . site_url('/classroom/update/' . $room->id) . '"><i class="icon-pencil"></i></a>&nbsp;
+                                        <a class="btn-delete" href="' . site_url('/classroom?del=' . $room->id) . '"><i class="icon-trash"></i></a>&nbsp;
+                                        <a class="add-courses" href="' . site_url('/students/add/' . $room->id) . '"><small>Tambah Siswa</small></a>&nbsp;
+                                        <a class="add-courses" href="' . site_url('/courses/add/' . $room->id) . '"><small>Tambah Pelajaran</small></a>
+                                    ';
+                                }
+
+                                ?>
+                            <?= '
                                     <tr class="odd gradeX">
-                                        <td>'.$room->class . ' (' . $room->name . ')</td>
-                                        <td>'.$room->semester.'</td>
-                                        <td>'.$room->year.'</td>
-                                        <td>'.$room->fullname.'</td>
-                                        <td class="center">
-                                            <a href="'. site_url('/classroom/update/' . $room->id).'">
-                                                <i class="icon-pencil"></i>
-                                            </a>&nbsp;
-                                            <a class="btn-delete" href="'. site_url('/classroom?del=' . $room->id).'">
-                                                <i class="icon-trash"></i>
-                                            </a>&nbsp;
-                                            <a class="add-courses" href="'. site_url('/courses/add/' . $room->id).'">
-                                                <small>Tambah Pelajaran</small>
-                                            </a>&nbsp;'. 
-                                            '<a class="add-courses" href="'. site_url('/students/add/' . $room->id).'">
-                                                <small>Tambah Siswa</small>
-                                            </a>' .
-                                        '</td>
+                                        <td>' . $room->class . ' (' . $room->name . ')</td>
+                                        <td>' . $room->semester . '</td>
+                                        <td>' . $room->year . '</td>
+                                        ' . $tdMaster . '
+                                        <td class="center">' . $tdAction . '</td>
                                     </tr>
-                                '?>
+                                ' ?>
                             <?php endforeach; ?>
                         </tbody>
                     </table>
@@ -67,19 +74,19 @@
 </div>
 
 <script type="text/javascript">
-$('document').ready(function() {
-    $('#list').dataTable( {
-        "sDom": "<<'span12'f>>t<<'span12'p>>",
-        "sPaginationType": "bootstrap"
-    }); 
+    $('document').ready(function() {
+        $('#list').dataTable({
+            "sDom": "<<'span12'f>>t<<'span12'p>>",
+            "sPaginationType": "bootstrap"
+        });
 
-    $('.btn-delete').click(function(e){
-        let url = $(this).attr('href');
-        e.preventDefault();
-        if(confirm('Yakin akan dihapus')){
-            window.location.href = url;
-        }
+        $('.btn-delete').click(function(e) {
+            let url = $(this).attr('href');
+            e.preventDefault();
+            if (confirm('Yakin akan dihapus')) {
+                window.location.href = url;
+            }
+        });
+
     });
-    
-});
 </script>
