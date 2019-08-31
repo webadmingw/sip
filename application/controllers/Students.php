@@ -65,8 +65,9 @@ class Students extends D_Controller
         $status = array();
         $allStudents = $this->student->getAllStudents();
         $classroom = $this->rooms->getAll();
-        if ($this->input->get('del')) {
-            if ($this->student->deleteStudent($this->input->get('del'))) {
+        $itemClass = $this->rooms->getClassByID($classID);
+        if($this->input->get('del')){
+            if($this->student->deleteStudent($this->input->get('del'))){
                 $allStudents = $this->student->getAllStudents();
                 $status = ['status' => true, 'msg' => 'Pengguna sudah dihapus dari sistem.'];
             } else {
@@ -105,7 +106,7 @@ class Students extends D_Controller
                 'classroom_id' => $classID,
                 'birth_day' => '',
                 'birth_place' => '',
-                'semester' => ''
+                'semester' => $itemClass->semester
             ),
             'status' => $status,
             'classroom' => $classroom,

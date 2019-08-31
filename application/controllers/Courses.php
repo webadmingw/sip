@@ -14,6 +14,7 @@ class Courses extends D_Controller
         $status = array();
         $dataCourse = $this->course->getCourseByIDRoom($id);
         $room = $this->rooms->getClassByID($id);
+        $teacher = $this->course->getTeacherByID($room->teacher_id);
         $urlClose = '/classroom';
         if($this->input->get('del')){
 
@@ -41,7 +42,8 @@ class Courses extends D_Controller
             'status' => $status,
             'room' => $room,
             'itemInput' => false,
-            'urlClose' => $urlClose
+            'urlClose' => $urlClose,
+            'teacher' => $teacher
         ));
         $this->load->view('course/list', array(
             'dataCourse' => $dataCourse,
