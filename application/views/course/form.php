@@ -91,9 +91,9 @@
                                                     <input 
                                                         class="input-xlarge focused" 
                                                         id="input-semester" 
-                                                        type="number" 
+                                                        type="text" 
                                                         disabled  
-                                                        value="<?= ($room ? $room->teacher_id : '') ?>"
+                                                        value="<?= ($teacher ? $teacher->fullname : '') ?>"
                                                     >
                                                     </div>
                                                 </div>

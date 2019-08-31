@@ -22,5 +22,8 @@ class Course extends CI_Model {
     public function deleteCourse($id) {
         return $this->db->query('update subject set is_deleted=1 where id=' . $id);
     }
+    public function getTeacherByID($id) {
+        return $this->db->query('SELECT * from users WHERE id = '.$id)->row();
+    }
     
 }

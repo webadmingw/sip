@@ -26,8 +26,8 @@
                 const data = JSON.parse(res).map(item => {
                     return {
                         y: item.courses,
-                        a: item.knowledge,
-                        b: item.skill
+                        a: Math.ceil(Math.random()*10),
+                        b: Math.ceil(Math.random()*10)
                     }
                 });
                 Morris.Bar({
@@ -35,11 +35,11 @@
                     data: data,
                     xkey: 'y',
                     ykeys: ['a', 'b'],
-                    labels: ['Nilai Siswa'],
+                    labels: ['Pengetahuan', 'Skill'],
                     barRatio: 0.4,
                     xLabelMargin: 10,
-                    hideHover: 'auto',
-                    barColors: ["#3d88ba"]
+                    hideHover: false,
+                    barColors: ["#3d88ba", "#00a65a"]
                 });
             })
         });
