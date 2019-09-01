@@ -127,4 +127,163 @@ class Reports extends CI_Model
         ) and report.skill = " . $skill . ";";
         return $this->db->query($sql);
     }
+
+
+    public function getListStudentByClass($classname, $semester, $year)
+    {
+        $sql = "select 
+            c.id, c.class, c.name class_name, c.semester, c.`year`,
+            s.nisn, s.fullname
+        from classroom c
+        inner join student s on s.cur_class = c.id
+        where 1=1
+            and c.`year`='" . $year . "'
+            and c.semester = " . $semester . "
+            and c.name like '%" . $classname . "%'
+        order by s.fullname;";
+
+        return $this->db->query($sql)->result();
+    }
+
+    public function getListSubjectByClass($classname, $semester, $year)
+    {
+        $sql = "select 
+            pel.fullname subject
+        from classroom c
+        inner join subject pel on pel.classroom_id=c.id
+        where 1=1
+            and c.`year`='" . $year . "'
+            and c.semester = " . $semester . "
+            and c.name like '%" . $classname . "%'
+        order by pel.id;";
+        return $this->db->query($sql)->result();
+    }
+
+
+    public function getResultSummaryByClass($classname, $semester, $year)
+    {
+        $sql = "
+        select 
+            s.nisn, s.fullname, pel.id subject_id, pel.fullname subject, avg(rknow.knowledge) knowledge, avg(rskill.knowledge) skill
+        from classroom c
+        inner join student s on s.cur_class = c.id
+        inner join subject pel on pel.classroom_id=c.id
+        inner join comp on comp.subject_id = pel.id
+        left join report rknow on rknow.comp_id = comp.id and rknow.nisn = s.nisn and rknow.skill=0
+        left join report rskill on rskill.comp_id = comp.id and rskill.nisn = s.nisn and rskill.skill=1
+        where 1=1
+        and c.`year`='" . $year . "'
+        and c.semester = " . $semester . "
+        and c.name like '%" . $classname . "%'
+        group by s.nisn, pel.id	
+        order by s.fullname, pel.id;
+        ";
+
+        $return = array();
+        $result = $this->db->query($sql)->result();
+
+        foreach ($result as $item) {
+            $return[$item->nisn][$item->subject_id] = $item;
+        }
+
+        return $return;
+    }
+
+    public function getAttitude($classname, $semester, $year)
+    {
+        $sql = "
+        select 
+            c.id class_id, s.phone, s.nisn, s.fullname, r.status 
+        from student s 
+        inner join classroom c on c.id = s.cur_class
+        left join report_attitude r on r.classroom_id = c.id and r.nisn = s.nisn and r.status = true
+        where 1=1 
+            and c.`year`='" . $year . "'
+            and c.semester = " . $semester . "
+            and c.name = '" . $classname . "'
+        group by s.fullname;
+        ";
+
+        return $this->db->query($sql)->result();
+    }
+
+    public function getAttitudeById($class_id, $semester, $year)
+    {
+        $sql = "
+        select 
+            c.id class_id, s.phone, s.nisn, s.fullname, r.status 
+        from student s 
+        inner join classroom c on c.id = s.cur_class
+        left join report_attitude r on r.classroom_id = c.id and r.nisn = s.nisn and r.status = true
+        where 1=1 
+            and c.`year`='" . $year . "'
+            and c.semester = " . $semester . "
+            and c.id = '" . $class_id . "'
+        group by s.fullname;
+        ";
+
+        return $this->db->query($sql)->result();
+    }
+
+    public function getMaxmin($classname, $semester, $year)
+    {
+        $sql = "
+        select 
+            s.nisn, s.fullname, pel.fullname subject, avg(rknow.knowledge) knowledge
+        from classroom c
+        inner join student s on s.cur_class = c.id
+        inner join subject pel on pel.classroom_id=c.id
+        inner join comp on comp.subject_id = pel.id
+        inner join report rknow on rknow.comp_id = comp.id and rknow.nisn = s.nisn
+        where 1=1
+            and c.`year`='" . $year . "'
+            and c.semester = " . $semester . "
+            and c.name = '" . $classname . "'
+        group by s.nisn, pel.id	
+        order by pel.id, avg(rknow.knowledge) desc;
+        ";
+
+        $return = [];
+        $result = $this->db->query($sql)->result();
+
+        if (count($result) > 0) {
+            $subject = '';
+            foreach ($result  as $item) {
+                if ($subject !== $item->subject) {
+                    $return[$item->subject]['max'] = array(
+                        'nisn' => $item->nisn,
+                        'fullname' => $item->fullname,
+                        'knowledge' => $item->knowledge
+                    );
+                    $subject = $item->subject;
+                } else {
+                    $return[$item->subject]['min'] = array(
+                        'nisn' => $item->nisn,
+                        'fullname' => $item->fullname,
+                        'knowledge' => $item->knowledge
+                    );
+                }
+            }
+        }
+
+        return $return;
+    }
+
+    public function addAtt($nisn, $class_id)
+    {
+        $sql = "
+        insert into report_attitude (classroom_id, `desc`, status, created_at, nisn) values (" . (int) $class_id . ", '', true, " . time() . ", '" . $nisn . "');
+        ";
+
+        return $this->db->query($sql);
+    }
+
+    public function removeAtt($nisn, $class_id)
+    {
+        $sql = "
+        delete from report_attitude where status = 1 and nisn = '" . $nisn . "' and classroom_id = " . (int) $class_id . ";
+        ";
+
+        return $this->db->query($sql);
+    }
 }

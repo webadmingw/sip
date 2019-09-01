@@ -74,3 +74,55 @@ if (!function_exists('get_grade')) {
         return $result;
     }
 }
+
+if (!function_exists('send_sms')) {
+    function send_sms($telp, $msg)
+    {
+        $userkey = "xpgark";
+        $passkey = "biou040ose";
+        $telepon = $telp;
+        $message = $msg;
+        $url = "https://reguler.zenziva.net/apps/smsapi.php";
+
+        try {
+            $curlHandle = curl_init();
+            curl_setopt($curlHandle, CURLOPT_URL, $url);
+            curl_setopt($curlHandle, CURLOPT_POSTFIELDS, 'userkey=' . $userkey . '&passkey=' . $passkey . '&nohp=' . $telepon . '&pesan=' . urlencode($message));
+            curl_setopt($curlHandle, CURLOPT_HEADER, 0);
+            curl_setopt($curlHandle, CURLOPT_RETURNTRANSFER, 1);
+            curl_setopt($curlHandle, CURLOPT_SSL_VERIFYHOST, 2);
+            curl_setopt($curlHandle, CURLOPT_SSL_VERIFYPEER, 0);
+            curl_setopt($curlHandle, CURLOPT_TIMEOUT, 30);
+            curl_setopt($curlHandle, CURLOPT_POST, 1);
+            $results = curl_exec($curlHandle);
+            curl_close($curlHandle);
+            $XMLdata = new SimpleXMLElement($results);
+            $status = $XMLdata->message[0]->status;
+
+            return $status;
+        } catch (\Exception $err) {
+            return false;
+        }
+    }
+}
+
+if (!function_exists('msg_max')) {
+    function msg_max($name, $subject)
+    {
+        return 'Selamat, Siswa/i ' . $name . ' berhasil menuntaskan pelajaran ' . $subject . ' dengan baik. Mohon dipertahankan.\nTerimakasih atas kerjasama semuanya.';
+    }
+}
+
+if (!function_exists('msg_min')) {
+    function msg_min($name, $subject)
+    {
+        return 'Yth, Orangtua Siswa/i ' . $name . '. Berdasarkan hasil pembelajaran ' . $subject . ' yang bermasalah, diharapkan ada komunikasi denga pihak sekolah. Atas perhatiannya kami ucapkan terimakasih.';
+    }
+}
+
+if (!function_exists('msg_att')) {
+    function msg_att($name)
+    {
+        return 'Yth, Orangtua Siswa/i ' . $name . ', mohon kerjasamanya untuk membimbing sikap dan prilakunya di lingkungan rumah.';
+    }
+}

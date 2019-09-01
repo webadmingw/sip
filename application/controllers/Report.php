@@ -13,52 +13,67 @@ class Report extends D_Controller
     public function index()
     {
         $status = array();
-        $curYear = $this->getCurrentYear();
-        $curSemester = $this->getCurrentSemester();
-        $curClass = $this->reports->getCurrentClass($this->session->userdata['id'], $curYear, $curSemester);
+        $students = array();
+        $subject = array();
+        $result = array();
 
-        $totalClass = count($curClass);
-        if ($totalClass > 0) {
-            $classId = ($this->input->get('class') ? $this->input->get('class') : $curClass[0]->classid);
+        if ($this->input->get()) {
+            $students = $this->reports->getListStudentByClass($this->input->get('class'), $this->input->get('semester'), $this->input->get('year'));
+            $subject = $this->reports->getListSubjectByClass($this->input->get('class'), $this->input->get('semester'), $this->input->get('year'));
+            $result = $this->reports->getResultSummaryByClass($this->input->get('class'), $this->input->get('semester'), $this->input->get('year'));
+        }
+        $this->load->view('layouts/header');
+        $this->load->view('report/index', array(
+            'status' => $status,
+            'class' => $this->input->get('class'),
+            'semester' => $this->input->get('semester'),
+            'year' => $this->input->get('year'),
+            'students' => $students,
+            'subject' => $subject,
+            'result' => $result
+        ));
 
-            if ($this->input->post('result')) {
-                $this->reports->deleteResultByClass($this->input->post('class'), $this->input->post('subject_id'));
-                $this->reports->insertResult($this->input->post('class'), $this->input->post('year'), $this->input->post('semester'), $this->input->post('result'));
-                $status = array('status' => true, 'msg' => 'Data berhasil ditambahkan.');
-            }
+        $this->load->view('layouts/footer');
+    }
 
-            $curCourse = $this->reports->getCurrentCourse($this->session->userdata['id'], $curYear, $curSemester, $classId);
-            $subjId = ($this->input->get('pel') ? $this->input->get('pel') : $curCourse[0]->id);
-            $students = $this->reports->getStudentByDetailCurrent($classId);
-            $result = $this->reports->getResults($classId);
-            $detail = $this->reports->getClassDetailCurrent($this->session->userdata['id'], $curYear, $curSemester, $classId, $subjId);
-            $data = array(
-                'status' => $status,
-                'curClassId' => $classId,
-                'curYear' => $curYear,
-                'curSemester' => $curSemester,
-                'curSubjectId' => $subjId,
-                'class' => $curClass,
-                'totalClass' => $totalClass,
-                'courses' => $curCourse,
-                'detail' => $detail,
-                'totalKd' => count($detail),
-                'students' => $students,
-                'result' => $result
-            );
-        } else {
-            $status = array('status' => false, 'msg' => 'Data tidak tersedia untuk anda.');
-            $data = array(
-                'status' => $status,
-                'curYear' => $curYear,
-                'curSemester' => $curSemester,
-                'class' => $curClass,
-                'totalClass' => $totalClass
-            );
+    public function att()
+    {
+        $status = array();
+        $result = array();
+
+        if ($this->input->get()) {
+            $result = $this->reports->getAttitude($this->input->get('class'), $this->input->get('semester'), $this->input->get('year'));
+        }
+        $this->load->view('layouts/header');
+        $this->load->view('report/att', array(
+            'status' => $status,
+            'class' => $this->input->get('class'),
+            'semester' => $this->input->get('semester'),
+            'year' => $this->input->get('year'),
+            'result' => $result
+        ));
+
+        $this->load->view('layouts/footer');
+    }
+
+    public function result()
+    {
+        $status = array();
+        $result = array();
+
+        if ($this->input->get()) {
+            $result = $this->reports->getMaxmin($this->input->get('class'), $this->input->get('semester'), $this->input->get('year'));
         }
 
         $this->load->view('layouts/header');
-        $this->load->view('report/form', $data);
+        $this->load->view('report/maxmin', array(
+            'status' => $status,
+            'class' => $this->input->get('class'),
+            'semester' => $this->input->get('semester'),
+            'year' => $this->input->get('year'),
+            'result' => $result
+        ));
+
         $this->load->view('layouts/footer');
     }
 }

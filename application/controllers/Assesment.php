@@ -10,6 +10,39 @@ class Assesment extends D_Controller
         $this->load->model('reports');
     }
 
+    public function index()
+    {
+        $status = array();
+        $curYear = $this->getCurrentYear();
+        $curSemester = $this->getCurrentSemester();
+        $curClass = $this->reports->getCurrentClass($this->session->userdata['id'], $curYear, $curSemester);
+
+        $classId = ($this->input->get('class') ? $this->input->get('class') : $curClass[0]->classid);
+
+        if ($this->input->get('att') === '0') {
+            $split = explode('-', $this->input->get('attr'));
+            $this->reports->addAtt($split[0], $split[1]);
+
+            $status = array('status' => true, 'msg' => 'Perubahan data berhasil disimpan.');
+        } elseif ($this->input->get('att') === '1') {
+            $split = explode('-', $this->input->get('attr'));
+            $this->reports->removeAtt($split[0], $split[1]);
+
+            $status = array('status' => true, 'msg' => 'Perubahan data berhasil disimpan.');
+        }
+
+        $result = $this->reports->getAttitudeById($classId, $curSemester, $curYear);
+
+        $this->load->view('layouts/header');
+        $this->load->view('assesment/att', array(
+            'status' => $status,
+            'class' => $curClass,
+            'curClassId' => $classId,
+            'result' => $result
+        ));
+        $this->load->view('layouts/footer');
+    }
+
     public function knowledge()
     {
         $status = array();

@@ -53,7 +53,7 @@ class Rooms extends CI_Model
     }
     public function getClassByID($id)
     {
-        return $this->db->query('SELECT * from classroom WHERE id = ' . $id)->row();
+        return $this->db->query('SELECT classroom.*, users.fullname teacher_name from classroom inner join users on users.id = classroom.teacher_id WHERE classroom.id = ' . $id)->row();
     }
     public function updateClass($id, $name, $year, $semester, $teacher_id, $classroom)
     {

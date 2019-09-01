@@ -21,160 +21,106 @@
             <div class="navbar navbar-inner block-header">
                 <div class="muted pull-left">Pelajaran</div>
                 <div class="text-right">
-                <a  href=<?= site_url($urlClose) ?>> 
-                <button style="margin-bottom:5px;" class="btn btn-warning" >Tutup</button>
-                </a>
+                    <a href=<?= site_url($urlClose) ?>>
+                        <button style="margin-bottom:5px;" class="btn btn-warning">Tutup</button>
+                    </a>
                 </div>
             </div>
             <div class="block-content collapse in">
                 <div class="span12">
                     <?php flash_msg($status); ?>
                     <form class="form-horizontal" method="post">
-                    <div class="table-responsive">
-                        <table class="table">
-                            <tbody>
-                                <tr>
-                                    <td>
-                                        <fieldset>
-                                            <div class="span9">
-                                            <div class="control-group">
-                                                    <label class="control-label">Nama Kelas</label>
-                                                    <div class="controls">
-                                                        <input 
-                                                            class="input-xlarge focused" 
-                                                            id="input-classroom" 
-                                                            type="text"  
-                                                            disabled 
-                                                            value="<?= ($room ? $room->name : '') ?>"
-                                                        >
+                        <div class="table-responsive">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <fieldset>
+                                                <div class="span9">
+                                                    <div class="control-group">
+                                                        <label class="control-label">Nama Kelas</label>
+                                                        <div class="controls">
+                                                            <input class="input-xlarge focused" id="input-classroom" type="text" disabled value="<?= ($room ? $room->name : '') ?>">
+                                                        </div>
+                                                    </div>
+                                                    <div class="control-group">
+                                                        <label class="control-label">Kelas</label>
+                                                        <div class="controls">
+                                                            <input class="input-xlarge focused" id="input-classroom" type="number" disabled value="<?= ($room ? $room->class : '') ?>">
+                                                        </div>
+                                                    </div>
+                                                    <div class="control-group">
+                                                        <label class="control-label">Tahun Ajaran</label>
+                                                        <div class="controls">
+                                                            <input class="input-xlarge focused" id="input-year" type="text" disabled value="<?= ($room ? $room->year : '') ?>">
+                                                        </div>
+                                                    </div>
+                                                    <div class="control-group">
+                                                        <label class="control-label">Semeter</label>
+                                                        <div class="controls">
+                                                            <input class="input-xlarge focused" id="input-semester" type="number" disabled value="<?= ($room ? $room->semester : '') ?>">
+                                                        </div>
+                                                    </div>
+                                                    <div class="control-group">
+                                                        <label class="control-label">Wali Kelas</label>
+                                                        <div class="controls">
+                                                            <input class="input-xlarge focused" id="input-semester" type="text" disabled value="<?= ($room ? $room->teacher_name : '') ?>">
+                                                        </div>
                                                     </div>
                                                 </div>
-                                                <div class="control-group">
-                                                    <label class="control-label">Kelas</label>
-                                                    <div class="controls">
-                                                        <input 
-                                                            class="input-xlarge focused" 
-                                                            id="input-classroom" 
-                                                            type="number" 
-                                                            disabled  
-                                                            value="<?= ($room ? $room->class : '') ?>"
-                                                        >
+                                            </fieldset>
+                                        </td>
+                                        <td>
+                                            <fieldset>
+                                                <div class="span9">
+                                                    <div class="control-group">
+                                                        <label class="control-label">Pelajaran</label>
+                                                        <div class="controls">
+                                                            <input class="input-xlarge focused" id="input-subject" type="text" name="subject" value="<?= ($itemInput ? $itemInput->fullname : '') ?>">
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="control-group">
-                                                    <label class="control-label">Tahun Ajaran</label>
-                                                    <div class="controls">
-                                                        <input 
-                                                            class="input-xlarge focused" 
-                                                            id="input-year" 
-                                                            type="number" 
-                                                            disabled  
-                                                            value="<?= ($room ? $room->year : '') ?>"
-                                                        >
+                                                    <div class="control-group">
+                                                        <label class="control-label">Deskripsi</label>
+                                                        <div class="controls">
+                                                            <input class="input-xlarge focused" id="input-desc" type="text" name="description" value="<?= ($itemInput ? $itemInput->desc : '') ?>">
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="control-group">
-                                                    <label class="control-label">Semeter</label>
-                                                    <div class="controls">
-                                                        <input 
-                                                            class="input-xlarge focused" 
-                                                            id="input-semester" 
-                                                            type="number" 
-                                                            disabled  
-                                                            value="<?= ($room ? $room->semester : '') ?>"
-                                                        >
+                                                    <div class="control-group">
+                                                        <label class="control-label">Nilai (Min)</label>
+                                                        <div class="controls">
+                                                            <input class="input-xlarge focused" id="input-min" type="number" name="min" value="<?= ($itemInput ? $itemInput->min_grade : '') ?>">
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="control-group">
-                                                    <label class="control-label">Wali Kelas</label>
-                                                    <div class="controls">
-                                                    <input 
-                                                        class="input-xlarge focused" 
-                                                        id="input-semester" 
-                                                        type="number" 
-                                                        disabled  
-                                                        value="<?= ($room ? $room->teacher_id : '') ?>"
-                                                    >
+                                                    <div class="control-group">
+                                                        <label class="control-label">Nilai (Max)</label>
+                                                        <div class="controls">
+                                                            <input class="input-xlarge focused" id="input-max" type="number" name="max" value="<?= ($itemInput ? $itemInput->max_grade : '') ?>">
+                                                        </div>
                                                     </div>
-                                                </div>
-                                            </div>
-                                        </fieldset>
-                                    </td>
-                                    <td>
-                                        <fieldset>
-                                            <div class="span9">
-                                            <div class="control-group">
-                                                    <label class="control-label">Pelajaran</label>
-                                                    <div class="controls">
-                                                        <input 
-                                                            class="input-xlarge focused" 
-                                                            id="input-subject" 
-                                                            type="text" 
-                                                            name="subject" 
-                                                            value="<?= ($itemInput ? $itemInput->fullname : '') ?>"
-                                                        >
-                                                    </div>
-                                                </div>
-                                                <div class="control-group">
-                                                    <label class="control-label">Deskripsi</label>
-                                                    <div class="controls">
-                                                        <input 
-                                                            class="input-xlarge focused" 
-                                                            id="input-desc" 
-                                                            type="text" 
-                                                            name="description" 
-                                                            value="<?= ($itemInput ? $itemInput->desc : '') ?>"
-                                                        >
-                                                    </div>
-                                                </div>
-                                                <div class="control-group">
-                                                    <label class="control-label">Nilai (Min)</label>
-                                                    <div class="controls">
-                                                        <input 
-                                                            class="input-xlarge focused" 
-                                                            id="input-min" 
-                                                            type="number" 
-                                                            name="min" 
-                                                            value="<?= ($itemInput ? $itemInput->min_grade : '') ?>"
-                                                        >
-                                                    </div>
-                                                </div>
-                                                <div class="control-group">
-                                                    <label class="control-label">Nilai (Max)</label>
-                                                    <div class="controls">
-                                                        <input 
-                                                            class="input-xlarge focused" 
-                                                            id="input-max" 
-                                                            type="number" 
-                                                            name="max" 
-                                                            value="<?= ($itemInput ? $itemInput->max_grade : '') ?>"
-                                                        >
-                                                    </div>
-                                                </div>
-                                                <div class="text-right">
+                                                    <div class="text-right">
                                                         <button type="submit" class="btn btn-success">Simpan</button>
-                                                        
+
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        </fieldset>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                                            </fieldset>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </form>
                 </div>
             </div>
         </div>
     </div>
-    
 
-<script type="text/javascript">
-    // $('document').ready(function() {
-    //     let x=0;
-    //     $('#btn-add-course').click(function(){
-    //         x<1 &&  $('#content').append('<tr><td>asdasd</td><td><button onclick="$(this).parent().parent().remove();">REMOVE</button></td></tr>');
-    //         x++;
-    //     });
-    // });
-</script>
+
+    <script type="text/javascript">
+        // $('document').ready(function() {
+        //     let x=0;
+        //     $('#btn-add-course').click(function(){
+        //         x<1 &&  $('#content').append('<tr><td>asdasd</td><td><button onclick="$(this).parent().parent().remove();">REMOVE</button></td></tr>');
+        //         x++;
+        //     });
+        // });
+    </script>
